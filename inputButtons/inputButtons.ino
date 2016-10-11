@@ -1,12 +1,18 @@
-void setup(){ 
-  Serial.begin(9600)  
-}
+// the last time the output pin was toggled
+unsigned long LEFTLastDebounceTime = 0; 
+unsigned long debounceDelay = 50; //debounce time, min time you want between presses 
 
-void loop(){ 
-  
-}const int leftButton = 5;
+int LEFTButtonState; 
+int LEFTLastButtonState = LOW;
+int RIGHTButtonState; 
+int RIGHTLastButtonState = LOW; 
+int ROTATEButtonState;
+int ROTATELastButtonState = LOW; 
+
+const int leftButton = 5;
 const int rightButton = 6;
 const int rotateButton = 7;
+
 void setup(){
   pinMode(leftButton, INPUT);
   pinMode(rightButton, INPUT);
@@ -15,10 +21,32 @@ void setup(){
 }
 
 void loop(){
-	val leftButt = digitalRead(leftButton)	
-    //incorporate filtering/debouncing
-  if (leftButt == HIGH){ 
-      Serial.print("1")  
+  //debouncing for LEFT button input only 
+  //read pin 
+  int LEFTButtonReading  = digitalRead(leftButton); 
+  
+  //if the new button reading does not equal the old button reading, then record time 
+  if (LEFTButtonReading != LEFTLastButtonState){ 
+    LEFTLastDebounceTime = millis(); 
+  } 
+  
+  //if the time between presses is less than the debounce delay 
+  //and the current button state is not the same as the new button 
+  //reading, then set new button state 
+  if ((millis() - LEFTLastDebounceTime) > debounceDelay){ 
+    //then this is actual content 
+    
+    if (LEFTButtonReading != LEFTButtonState) { 
+      LEFTButtonState = LEFTButtonReading; 
+    }  
+  } 
+  //transfer current button reading to last button state for future
+  //checks 
+  LEFTLastButtonState = LEFTButtonReading;
+  
+   //incorporate filtering/debouncing
+  if (leftButton == HIGH){ 
+      Serial.print("1"); 
   }
   
   if(digitalRead(rightButton) == HIGH){
