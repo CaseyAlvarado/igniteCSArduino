@@ -6,11 +6,17 @@ bool isPressed2 = false;
 bool isPressed3 = false;
 
 //keep track of previous and current states
-bool previousState = HIGH; 
-bool currentState; 
+bool button1PreviousState = HIGH; 
+bool button1CurrentState; 
+
+bool button2PreviousState = HIGH; 
+bool button2CurrentState;
+
+bool button3PreviousState = HIGH; 
+bool button3CurrentState;
 
 //keeps track of the first time a button was pressed
-unsigned long firstTimePressed = 0; 
+//unsigned long firstTimePressed = 0; 
 
 int buttonPin = 9; 
 
@@ -26,36 +32,32 @@ void loop() {
   val1 = digitalRead(buttonPin);
   Serial.println("what is val?");
   Serial.println(val1);
-  currentState = !val1; 
+  button1CurrentState = !val1;
   
-  if ((currentState == LOW) && (previousState == HIGH)){ 
+  if ((button1CurrentState == LOW) && (button1PreviousState == HIGH)){ 
     Serial.println("FIRST TIME");
     Serial.println(millis());
-    firstTimePressed = millis(); 
-    previousState = LOW; 
+    unsigned long firstTime = millis(); 
+    checkIfHeld(button1CurrentState, button1PreviousState, firstTime);
+    button1PreviousState = LOW; 
     delay(500);
-  } 
-  Serial.println(firstTimePressed);
-  //how long has this been held for? 
-  long timeHeld = millis() - firstTimePressed; 
-  Serial.println(timeHeld);
-  //if the amount of time held for it greater than some value to counteract noise 
-  //the value of 50 can be experimented with 
-  if ((timeHeld > 100) && (firstTimePressed !=0)){ 
-    if (currentState == HIGH && previousState ==LOW){ 
-      Serial.println("releasing state, held for");
-      Serial.println(timeHeld); 
-      Serial.println("how long was it held for?");
-      Serial.println(timeHeld/1000);
-      previousState = currentState;
-      delay(500);
-    } 
-
   }
-  delay(500);
-//  
+  
+//  if ((currentState == LOW) && (previousState == HIGH)){ 
+//    Serial.println("FIRST TIME");
+//    Serial.println(millis());
+//    firstTimePressed = millis(); 
+//    checkIfHeld(button1CurrentState, button1PreviousState);
+//    previousState = LOW; 
+//    delay(500);
+//  } 
+ //if button is pressed, go into loop? 
+ 
+   
   
 //  val2 = digitalRead(5);
+// 
+//  
 //  val3 = digitalRead(10);
 //  if (val1 == 1) {
 //    if (isPressed1 == false) {
@@ -90,3 +92,26 @@ void loop() {
 ////  Serial.println('a');
 }
 
+void checkIfHeld(int buttonCurrentState, int buttonPreviousState, unsigned long firstTimePressed){ 
+//  Serial.println(firstTimePressed);
+//  //how long has this been held for? 
+//  long timeHeld = millis() - firstTimePressed; 
+//  Serial.println(timeHeld);
+//  //if the amount of time held for it greater than some value to counteract noise 
+//  //the value of 50 can be experimented with 
+//  if ((timeHeld > 100) && (firstTimePressed !=0)){ 
+//    if (currentState == HIGH && previousState ==LOW){ 
+//      Serial.println("releasing state, held for");
+//      Serial.println(timeHeld); 
+//      Serial.println("how long was it held for?");
+//      Serial.println(timeHeld/1000);
+//      previousState = currentState;
+//      delay(500);
+//      
+//      //return either a letter up above and print up above or print u, l, or r here 
+//      //want it to happen real time, so probably here is a good idea 
+//    } 
+//  }
+//  delay(500); 
+  
+}
