@@ -12,7 +12,7 @@ bool currentState;
 //keeps track of the first time a button was pressed
 unsigned long firstTimePressed = 0; 
 
-int buttonPin = 7; 
+int buttonPin = 9; 
 
 void setup() {
   // put your setup code here, to run once:
@@ -24,15 +24,16 @@ void setup() {
 
 void loop() {
   val1 = digitalRead(buttonPin);
+  Serial.println("what is val?");
+  Serial.println(val1);
   currentState = !val1; 
   
-  
   if ((currentState == LOW) && (previousState == HIGH)){ 
-    Serial.print("FIRST TIME");
+    Serial.println("FIRST TIME");
     Serial.println(millis());
     firstTimePressed = millis(); 
     previousState = LOW; 
-    delay(200);
+    delay(500);
   } 
   Serial.println(firstTimePressed);
   //how long has this been held for? 
@@ -40,16 +41,18 @@ void loop() {
   Serial.println(timeHeld);
   //if the amount of time held for it greater than some value to counteract noise 
   //the value of 50 can be experimented with 
-  if ((timeHeld > 50) && (firstTimePressed !=0)){ 
+  if ((timeHeld > 100) && (firstTimePressed !=0)){ 
     if (currentState == HIGH && previousState ==LOW){ 
-      Serial.print("releasing state, held for");
-      Serial.print(timeHeld);
-      Serial.println(timeHeld/1000); 
+      Serial.println("releasing state, held for");
+      Serial.println(timeHeld); 
+      Serial.println("how long was it held for?");
+      Serial.println(timeHeld/1000);
       previousState = currentState;
+      delay(500);
     } 
 
   }
-  delay(200);
+  delay(500);
 //  
   
 //  val2 = digitalRead(5);
