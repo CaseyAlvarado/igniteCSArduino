@@ -24,11 +24,12 @@ Grid board, preview;
 Tetromino curr;
 Shape next;
 Shape[] shapes = new Shape[7];
-int timer = 20;
+int timer = 10;
 int currTime = 0;
 int score = 0;
 int lines = 0;
 int level = 1;
+int angle = 0;
 final int SPEED_DECREASE = 2;
 boolean game_over = false;
 Serial inPort;
@@ -38,7 +39,7 @@ void setup() {
   size(500, 690, P2D);
   textSize(25);
   controlP5 = new ControlP5(this);
-  controlP5.addButton("play", 1, width/2 - 35, height/2, 70, 20).setLabel("play again");
+  controlP5.addButton("play", 1, width/2 + 35, height/2, 70, 20).setLabel("play again");
   shapes[0] = new Shape(4, new int[] {8,9,10,11}, CYAN);  // I
   shapes[1] = new Shape(3, new int[] {0,3,4,5}, BLUE);  // J
   shapes[2] = new Shape(3, new int[] {2,3,4,5}, ORANGE);  // L
@@ -83,14 +84,17 @@ void loadNext() {
 void serialEvent(Serial p) { 
   int inChar = p.read(); 
 
-  if (inChar == 'l') {
+  if (inChar == 0) {
     curr.left();
   }
-    if (inChar == 'r') {
+    if (inChar == 1) {
     curr.right();
   }
-    if (inChar == 'u') {
-    curr.rotate();
+  else {
+    angle = inChar;
+    println(angle);
+    curr.getShape().changeColor((inChar+255)%255,(inChar+125)%255,inChar);
+    //timer = (inChar / 25) + 5;
   }
 } 
 
@@ -110,7 +114,7 @@ void keyPressed() {
     case LEFT : curr.left(); break;
     case RIGHT : curr.right(); break;
     case UP : curr.rotate(); break;
-    case DOWN : curr.down(); break;
+    case DOWN : curr.rotateCCW(); break;
     case ' ' : curr.hardDown(); break;
   }
 }

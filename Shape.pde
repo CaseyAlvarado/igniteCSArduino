@@ -30,4 +30,8 @@ class Shape {
         if (matrix[i][j])
           preview.fillSquare(i, j - startJ, c);
   }
+  
+  void changeColor(int r, int g, int b) {
+    this.c = color(r,g,b);
+  }
 }

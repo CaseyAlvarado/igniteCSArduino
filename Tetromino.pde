@@ -80,6 +80,23 @@ class Tetromino {
       left();
     }
   }
+  
+    void rotateCCW() {
+    boolean[][] ret = new boolean[shape.matrix.length][shape.matrix.length];
+    for (int x = 0; x < ret.length; ++x)
+        for (int y = 0; y < ret.length; ++y)
+            ret[x][y] = shape.matrix[ret.length - 1 -y][x];
+    if (isLegal(ret, x, y)) {
+      shape.matrix = ret;
+      update();
+    } else if (isLegal(ret, x + 1, y) || isLegal(ret, x + 2, y)) {
+      shape.matrix = ret;
+      right();
+    } else if (isLegal(ret, x - 1, y) || isLegal(ret, x - 2, y)) {
+      shape.matrix = ret;
+      left();
+    }
+  }
    
   int getFinalRow() {
     int start = max (0, y);
@@ -98,14 +115,24 @@ class Tetromino {
   }
    
   void draw() {
+    //Code to randomly change tetromino color 
+    //int r = (int)random(255);
+    //int g = (int)random(255);
+    //int b = (int)random(255);
+    //shape.c = color(r,g,b);
     for (int i = 0; i < shape.matrix.length; ++i) {
       for (int j = 0; j < shape.matrix.length; ++j) {
         if (shape.matrix[i][j]) {
+         
           board.fillSquare(x + i, y + j, shape.c);
           board.outlineSquare(x + i, final_row + j);
         }
       }
     }
+  }
+  
+  Shape getShape() {
+    return shape; 
   }
    
 }
