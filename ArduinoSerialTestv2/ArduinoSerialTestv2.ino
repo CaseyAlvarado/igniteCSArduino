@@ -18,7 +18,7 @@ bool button3CurrentState;
 //keeps track of the first time a button was pressed
 //unsigned long firstTimePressed = 0; 
 
-int buttonPin = 9; 
+int buttonPin = 13; 
 
 void setup() {
   // put your setup code here, to run once:
@@ -92,8 +92,9 @@ void loop() {
 ////  Serial.println('a');
 }
 
-void checkIfHeld(int buttonCurrentState, int buttonPreviousState, unsigned long firstTimePressed){ 
-//  Serial.println(firstTimePressed);
+void checkIfHeld(int buttonCurrentState, int buttonPreviousState, unsigned long firstTimePressed){
+  
+  Serial.println(firstTimePressed);
 //  //how long has this been held for? 
 //  long timeHeld = millis() - firstTimePressed; 
 //  Serial.println(timeHeld);
