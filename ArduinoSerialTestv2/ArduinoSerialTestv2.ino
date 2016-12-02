@@ -5,9 +5,9 @@ int val2 = 0;
 int val3 = 0;
 
 //initializing button pins 
-int buttonPin1 = 13;
-int buttonPin2 = ; 
-int buttonPin3 = ;
+int buttonPin1 = 5;
+int buttonPin2 = 6; 
+int buttonPin3 = 7;
 
 //boolean if the button is pressed 
 bool isPressed1 = false;
@@ -32,7 +32,9 @@ unsigned long button3Time = 0;
 long previousTime = 0;
 
 //integer array tracks the buttons pressed 
-int[] buttonsPressed = {0, 0, 0, 0}
+int buttonsPressed[] = {0, 0, 0, 0};
+
+int buttonMessages[3]; 
 
 void setup() {
   // put your setup code here, to run once:
@@ -46,36 +48,16 @@ void setup() {
 }
 
 void loop() {
-//   long currentTime = millis(); 
-//   if ((currentTime - previousTime) > INTERVAL){ 
-//     //then send information somehow?
-//     Serial.write(something);
-//   } 
-  
-//   buttonsPressed = checkButtons(); 
-  
-  
-//   if ((button1CurrentState == LOW) && (button1PreviousState == HIGH)){ 
-//     Serial.println("FIRST TIME");
-//     Serial.println(millis());
-    
-//     output1 = true;
-    
-//     unsigned long firstTime = millis(); 
-//     checkIfHeld(button1CurrentState, button1PreviousState, firstTime);
-//     button1PreviousState = LOW; 
-//     delay(500);
-//   }
-  buttonMessages = checkButtons(buttonPin1, buttonPin2, buttonPin3);
-
+  checkButtons(buttonPin1, buttonPin2, buttonPin3);
+  Serial.println("l");
 }
 
 
-bool[] checkButtons(button1, button2, button3){
-  curTime = millis();
-  button1State = !digitalRead(button1);
-  button2State = !digitalRead(button2);
-  button3State = !digitalRead(button3);
+void checkButtons(int button1, int button2, int button3){
+  unsigned long curTime = millis();
+  int button1State = !digitalRead(button1);
+  int button2State = !digitalRead(button2);
+  int button3State = !digitalRead(button3);
   
   bool output1 = false;
   bool output2 = false;
@@ -120,6 +102,8 @@ bool[] checkButtons(button1, button2, button3){
     output3 = true;
   }
   
-  return [output1, output2, output3];
+  buttonMessages[0] = output1; 
+  buttonMessages[1] = output2;
+  buttonMessages[2] = output3;
   
 }
