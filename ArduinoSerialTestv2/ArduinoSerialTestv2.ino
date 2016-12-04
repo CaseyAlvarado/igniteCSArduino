@@ -49,7 +49,17 @@ void setup() {
 
 void loop() {
   checkButtons(buttonPin1, buttonPin2, buttonPin3);
- 
+
+  if(buttonMessages[0]){
+    Serial.println('l');
+  }
+  if(buttonMessages[1]){
+    Serial.println('r');
+  }
+  if(buttonMessages[2]){
+    Serial.println('u');
+  }
+
 }
 
 
