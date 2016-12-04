@@ -49,7 +49,7 @@ void setup() {
 
 void loop() {
   checkButtons(buttonPin1, buttonPin2, buttonPin3);
-  Serial.println("l");
+ 
 }
 
 

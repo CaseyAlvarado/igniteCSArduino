@@ -50,6 +50,7 @@ void setup() {
   preview = new Grid(355, 20, 116, 58, 2, 4);
   next = shapes[(int)random(7)];
   inPort = new Serial(this,Serial.list()[0],9600);
+  delay(500); 
   loadNext();
 }
  
@@ -81,34 +82,49 @@ void loadNext() {
 }
  
 void serialEvent(Serial p) { 
-  int inChar = p.read(); 
-
-  if (inChar == 0) {
-    curr.left();
+  boolean notWorking = true;
+  while(notWorking){
+    try{ 
+      int inChar = p.read(); 
+      println(inChar);
+      if (inChar == 108) {
+        curr.left();
+      }
+        if (inChar == 114) {
+        curr.right();
+      }
+      else {
+        angle = inChar;
+        //println(angle);
+        //curr.getShape().changeColor((inChar+155)%255,(inChar+25)%255,inChar);
+        //timer = (inChar / 25) + 5;
+      } 
+     notWorking = false;
+    }
+    catch(Exception e) { 
+      println("in the catch"); 
+      println(e); 
+    } 
   }
-    if (inChar == 1) {
-    curr.right();
-  }
-  else {
-    angle = inChar;
-    //println(angle);
-    curr.getShape().changeColor((inChar+255)%255,(inChar+125)%255,inChar);
-    //timer = (inChar / 25) + 5;
-  }
+  
 } 
 
 void keyPressed() {
+    //println("IN KEY PRESSED"); 
+    //println(100000); 
   if (curr == null || game_over)
     return;
-  if (inPort.available() >0) {
-    int inByte = inPort.read();
-    println(inByte);
-    if (inByte == 97) {
-      curr.left();
-    }
-  }
+  //println(inPort.available()); 
+  //if (inPort.available() >0) {
+  //  int inByte = inPort.read();
+  //  println("in key pressed");
+  //  println(inByte);
+  //  if (inByte == 108) {
+  //    curr.left();
+  //  }
+  //}
   switch(keyCode) {
-    case LEFT : curr.left(); break;
+    case LEFT : println("IN LEFT");  break;
     case RIGHT : curr.right(); break;
     case UP : curr.rotate(); break;
     case DOWN : curr.rotateCCW(); break;
