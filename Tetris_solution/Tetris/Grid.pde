@@ -69,12 +69,12 @@ class Grid {
   }
    
   void endTurn() {
-    for (int i = 0; i < curr.shape.matrix.length; ++i)
-      for (int j = 0; j < curr.shape.matrix.length; ++j)
-        if (curr.shape.matrix[i][j] && j + curr.y >= 0)
-          colors[i + curr.x][j + curr.y] = curr.getColor();
+    for (int i = 0; i < tetromino.shape.matrix.length; ++i)
+      for (int j = 0; j < tetromino.shape.matrix.length; ++j)
+        if (tetromino.shape.matrix[i][j] && j + tetromino.y >= 0)
+          colors[i + tetromino.x][j + tetromino.y] = tetromino.getColor();
     if (checkLines()) {
-      curr = null;
+      tetromino = null;
       animateCount = 0;
     } else
       loadNext();

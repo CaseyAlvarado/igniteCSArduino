@@ -1,12 +1,4 @@
-/*
-  Tetris
-  Author: Karl Hiner
-  Controls:
-  LEFT/RIGHT/DOWN to move
-  UP - flip
-  SPACE - hard drop (drop immediately)
-*/
- 
+
 import controlP5.*;
 import processing.serial.*;
  
@@ -20,7 +12,7 @@ final int GREEN = color(0,255,0);
  
 ControlP5 controlP5;
 Grid board, preview;
-Tetromino curr;
+Tetromino tetromino;
 Shape next;
 Shape[] shapes = new Shape[7];
 int timer = 10;
@@ -32,6 +24,7 @@ int angle = 0;
 final int SPEED_DECREASE = 2;
 boolean game_over = false;
 Serial inPort;
+boolean game; 
 
  
 void setup() {
@@ -49,7 +42,7 @@ void setup() {
   board = new Grid(20, 20, 321, 642, 20, 10);
   preview = new Grid(355, 20, 116, 58, 2, 4);
   next = shapes[(int)random(7)];
-  inPort = new Serial(this,Serial.list()[0],9600);
+  //inPort = new Serial(this,Serial.list()[0],9600);
   delay(500); 
   loadNext();
 }
@@ -63,11 +56,11 @@ void draw() {
   }
   currTime++;
   if (currTime >= timer && board.animateCount == -1)
-    curr.stepDown();
+    tetromino.stepDown();
   preview.draw();
   board.draw();
-  if (curr != null)
-    curr.draw();
+  if (tetromino != null)
+    tetromino.draw();
   next.preview();
   fill(255);
   text("LEVEL\n" + level, width - 150, 120);
@@ -76,59 +69,45 @@ void draw() {
 }
  
 void loadNext() {
-  curr = new Tetromino(next);
+  tetromino= new Tetromino(next);
   next = shapes[(int)random(7)];
   currTime = 0;
 }
  
-void serialEvent(Serial p) { 
-  boolean notWorking = true;
-  while(notWorking){
+void serialEvent(Serial port) { 
+  game = true;
+  while(game){
     try{ 
-      int inChar = p.read(); 
-      println(inChar);
-      if (inChar == 108) {
-        curr.left();
+      int letter = port.read(); 
+      println(letter);
+      if (letter == 108) {
+        tetromino.left();
       }
-        if (inChar == 114) {
-        curr.right();
+      if (letter == 114) {
+        tetromino.right();
       }
-      else {
-        angle = inChar;
-        //println(angle);
-        //curr.getShape().changeColor((inChar+155)%255,(inChar+25)%255,inChar);
-        //timer = (inChar / 25) + 5;
-      } 
-     notWorking = false;
+      if (letter == 117){ 
+       tetromino.rotate();  
+      }
+      
+     game = false;
     }
     catch(Exception e) { 
-      println("in the catch"); 
-      println(e); 
+      println("computer does not understand"); 
     } 
   }
   
 } 
 
 void keyPressed() {
-    //println("IN KEY PRESSED"); 
-    //println(100000); 
-  if (curr == null || game_over)
+  if (tetromino== null || game_over)
     return;
-  //println(inPort.available()); 
-  //if (inPort.available() >0) {
-  //  int inByte = inPort.read();
-  //  println("in key pressed");
-  //  println(inByte);
-  //  if (inByte == 108) {
-  //    curr.left();
-  //  }
-  //}
   switch(keyCode) {
-    case LEFT : println("IN LEFT");  break;
-    case RIGHT : curr.right(); break;
-    case UP : curr.rotate(); break;
-    case DOWN : curr.rotateCCW(); break;
-    case ' ' : curr.hardDown(); break;
+    case LEFT : tetromino.left();  break;
+    case RIGHT : tetromino.right(); break;
+    case UP : tetromino.rotate(); break;
+    case DOWN : tetromino.rotateCCW(); break;
+    case ' ' : tetromino.hardDown(); break;
   }
 }
  
