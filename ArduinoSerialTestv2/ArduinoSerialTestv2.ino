@@ -37,27 +37,25 @@ int buttonsPressed[] = {0, 0, 0, 0};
 int buttonMessages[3]; 
 
 void setup() {
-  // put your setup code here, to run once:
   Serial.begin(9600);
   //identify button pins as inputs 
   pinMode(buttonPin1, INPUT);
   pinMode(buttonPin2, INPUT); 
   pinMode(buttonPin3, INPUT); 
   
-  //TO DO: Identify output 
 }
 
 void loop() {
   checkButtons(buttonPin1, buttonPin2, buttonPin3);
 
-  if(buttonMessages[0]){
+  if(buttonMessages[0]){ // this is the left button
     Serial.println('l');
   }
-  if(buttonMessages[1]){
-    Serial.println('r');
-  }
-  if(buttonMessages[2]){
+  if(buttonMessages[1]){ // this is the middle button
     Serial.println('u');
+  }
+  if(buttonMessages[2]){ // this is the right button
+    Serial.println('r');
   }
 
 }
@@ -65,52 +63,49 @@ void loop() {
 
 void checkButtons(int button1, int button2, int button3){
   unsigned long curTime = millis();
-  int button1State = !digitalRead(button1);
-  int button2State = !digitalRead(button2);
-  int button3State = !digitalRead(button3);
+  int button1State = digitalRead(button1);
+  int button2State = digitalRead(button2);
+  int button3State = digitalRead(button3);
   
   bool output1 = false;
   bool output2 = false;
   bool output3 = false;
   
-  if(!isPressed1 && button1State == LOW){
+  if(!isPressed1 && button1State == HIGH){
     isPressed1 = true;
-    button1Time = curTime;
     output1 = true;
   }
-  else if(button1State == HIGH){
+  else if(button1State == LOW){
     isPressed1 = false;
   }
   else if(isPressed1 && (curTime - button1Time > INTERVAL)){
-    button1Time = curTime;
     output1 = true;
   }
+  button1Time = curTime;
   
-  if(!isPressed2 && button2State == LOW){
+  if(!isPressed2 && button2State == HIGH){
     isPressed2 = true;
-    button2Time = curTime;
     output2 = true;
   }
-  else if(button2State == HIGH){
+  else if(button2State == LOW){
     isPressed2 = false;
   }
   else if(isPressed2 && (curTime - button2Time > INTERVAL)){
-    button2Time = curTime;
     output2 = true;
   }
+  button2Time = curTime;
   
-  if(!isPressed3 && button3State == LOW){
+  if(!isPressed3 && button3State == HIGH){
     isPressed3 = true;
-    button3Time = curTime;
     output3 = true;
   }
-  else if(button3State == HIGH){
+  else if(button3State == LOW){
     isPressed3 = false;
   }
   else if(isPressed3 && (curTime - button3Time > INTERVAL)){
-    button3Time = curTime;
     output3 = true;
   }
+  button3Time = curTime;
   
   buttonMessages[0] = output1; 
   buttonMessages[1] = output2;
