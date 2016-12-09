@@ -6,7 +6,6 @@
 // to mean the value on the right.
 // "int" means the value is an integer (whole number).
 int LED1    = 2;
-int LED2 = 3;
 
 int leftButton = 5;
 int middleButton = 6;
@@ -17,7 +16,6 @@ int rightButton = 7;
 
 void setup() {
   pinMode(LED1, OUTPUT);
-  pinMode(LED2, OUTPUT);
   
   
   // Helpful hints to avoid frustrating mistakes:
